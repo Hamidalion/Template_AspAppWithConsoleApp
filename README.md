@@ -27,7 +27,15 @@ cmd:\ dotnet new sln
 14.Add Microsoft.Extensions.Logging.Debug NuGet
 15.In .ConfigureLogging .AddConsole() .AddDebug();
 16.Add .ConfigureServices
-17.Create TaskSchedulerServices.cs inheritance IHostedServices, IDisposable
+17.Create TaskSchedulerServices.cs inheritance IHostedServices, IDisposable and implement thei
+18.Create Model/Settings/ and set properties from our config.json
+19.Add created settings in .ConfigureServices
+20.Add logger in our TaskSchedulerService about timer
+21.Edit StopAsync() 
+22.Edit Dispose() 
+23.Add in Start() non-repiter  
+24.Add our TaskShedileService in configuration
+
 
  
 

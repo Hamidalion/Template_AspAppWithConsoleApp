@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using WCA_PL.Model;
+using WCA_PL.Services;
 
 namespace WCA_PL
 {
@@ -21,10 +24,10 @@ namespace WCA_PL
                     configLogging.AddDebug();
                 })
                 .ConfigureServices(services => // конфигурация наших зависимостей
-                { 
-                    services.
-                })
-                ;
+                {
+                    services.AddHostedService<TaskSchedulerService>(); 
+                    services.AddSingleton<Settings>();
+                });
 
             await hostBuilder.RunConsoleAsync();
         }
