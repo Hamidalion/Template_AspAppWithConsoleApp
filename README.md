@@ -20,8 +20,8 @@ cmd:\ dotnet new sln
 7. Add in HostBuilder .ConfigureAppConfiguration
 8. Add in .ConfigureAppConfiguration .AddJsonFile("config.json") and using;
 9. Add in .ConfigureAppConfiguration .AddJsonFile("config.json") and using;
-10.Add config.json in proj
-11.Set setting in config.json ~~~ and add <Content Include="**\*.json" Exclude="bin\**\*; obj\**\*" CopyToOutputDirectory="PreserveNewest" />
+10. Add config.json in proj
+11. Set setting in config.json ~~~ and add <Content Include="**\*.json" Exclude="bin\**\*; obj\**\*" CopyToOutputDirectory="PreserveNewest" />
 12.Add Microsoft.Extensions.Logging NuGet
 13.Add Microsoft.Extensions.Logging.Console NuGet
 14.Add Microsoft.Extensions.Logging.Debug NuGet
