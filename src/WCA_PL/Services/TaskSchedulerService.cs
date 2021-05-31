@@ -5,6 +5,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WCA_PL.Model;
+using WCA_PL.Services.TaskQue;
+using WCA_PL.Workers;
 
 namespace WCA_PL.Services
 {
@@ -15,8 +17,9 @@ namespace WCA_PL.Services
         private readonly Settings settings;
         private readonly ILogger<TaskSchedulerService> logger;
         private readonly object syncRoot = new object();
+        private readonly Random random = new Random();
 
-        public TaskSchedulerService(IServiceProvider services)
+        public TaskSchedulerService(IServiceProvider services)  // Служба планировщика заданий
         {
             this.services = services;
             this.settings = services.GetRequiredService<Settings>();
@@ -51,7 +54,7 @@ namespace WCA_PL.Services
             {
                 logger.LogInformation($"Process task started.");
 
-
+                DoWork();
 
                 logger.LogInformation($"Process task finished.");
                 Monitor.Exit(syncRoot);
@@ -60,6 +63,20 @@ namespace WCA_PL.Services
             {
                 logger.LogInformation($"Processing is currently in progress. Skipped.");
             }
+        }
+
+        private void DoWork()
+        {
+            var number = random.Next(20);
+
+            var processor = services.GetRequiredService<TaskProcessor>(); //наша задача
+
+            var queue = services.GetRequiredService<IBackgorundTaskQueue>(); //наша очередь
+
+            queue.QueueBackgorundWorkItem(token =>
+            {
+                return processor.RunAsync(number, token);
+            });
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WCA_PL.Model;
 using WCA_PL.Services;
+using WCA_PL.Services.TaskQue;
+using WCA_PL.Workers;
 
 namespace WCA_PL
 {
@@ -23,10 +25,16 @@ namespace WCA_PL
                     configLogging.AddConsole();
                     configLogging.AddDebug();
                 })
-                .ConfigureServices(services => // конфигурация наших зависимостей
+                .ConfigureServices(services =>
                 {
-                    services.AddHostedService<TaskSchedulerService>(); 
-                    services.AddSingleton<Settings>();
+                    services.AddSingleton<Settings>(); // DI настроеек
+                    services.AddHostedService<TaskSchedulerService>(); //наполнение сервиса задач
+
+                    services.AddSingleton<IBackgorundTaskQueue, BackgorundTaskQueue>();
+
+                    services.AddSingleton<TaskProcessor>();
+
+                    services.AddHostedService<WorkerService>();
                 });
 
             await hostBuilder.RunConsoleAsync();
